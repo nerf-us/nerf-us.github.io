@@ -1,13 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="NeRF-US removes ultrasound imaging artifacts from neural radiance fields captured in uncontrolled, real-world settings.">
+  <meta name="keywords" content="NeRF-US, neural radiance fields, ultrasound imaging, medical imaging, 3D reconstruction, novel view synthesis">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NeRF-US</title>
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://nerf-us.github.io/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="NeRF-US: Removing Ultrasound Imaging Artifacts from Neural Radiance Fields in the Wild">
+  <meta property="og:description" content="NeRF-US produces accurate, clinically plausible ultrasound reconstructions from data captured in uncontrolled settings.">
+  <meta property="og:url" content="https://nerf-us.github.io/">
+  <meta property="og:image" content="https://nerf-us.github.io/assets/img/nerf-us/teaser.png">
+  <meta property="og:image:alt" content="NeRF-US ultrasound reconstruction overview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NeRF-US: Removing Ultrasound Imaging Artifacts from Neural Radiance Fields in the Wild">
+  <meta name="twitter:description" content="Accurate ultrasound neural radiance fields from data captured in uncontrolled settings.">
+  <meta name="twitter:image" content="https://nerf-us.github.io/assets/img/nerf-us/teaser.png">
+  <meta name="citation_title" content="NeRF-US: Removing Ultrasound Imaging Artifacts from Neural Radiance Fields in the Wild">
+  <meta name="citation_author" content="Dagli, Rishit">
+  <meta name="citation_author" content="Hibi, Atsuhiro">
+  <meta name="citation_author" content="Krishnan, Rahul G.">
+  <meta name="citation_author" content="Tyrrell, Pascal N.">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="Machine Learning for Healthcare Conference">
+  <meta name="citation_pdf_url" content="https://raw.githubusercontent.com/mlresearch/v252/main/assets/dagli24a/dagli24a.pdf">
+  <meta name="citation_arxiv_id" content="2408.10258">
+  <title>NeRF-US: Removing Ultrasound Imaging Artifacts from Neural Radiance Fields in the Wild</title>
   
     <link rel="icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9C%A8&lt;/text&gt;&lt;/svg&gt;">
   
@@ -27,7 +48,6 @@
   <link rel="stylesheet" href="./assets/css/bulma.min.css">
   <link rel="stylesheet" href="./assets/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./assets/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./assets/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./assets/css/nerfies_general.css">
   <!-- <link rel="icon" href="./assets/img/emojis/nerfus.png"> -->
@@ -97,6 +117,67 @@
             color: #209cee !important;
             transform: translateX(5px);
         }
+
+        .publication-authors a,
+        .paper-preview-section .links a {
+            color: #1769aa !important;
+        }
+
+        .dnerf {
+            color: #174ea6;
+        }
+
+        [style*="color:red"],
+        [style*="color: red"] {
+            color: #b00020 !important;
+        }
+
+        [style*="color: #7a7a7a"],
+        [style*="color:#7a7a7a"] {
+            color: #5f6368 !important;
+        }
+
+        .footer .content a {
+            color: #1769aa;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .motivation-row {
+                flex-direction: column;
+            }
+
+            .motivation-copy,
+            .motivation-figure {
+                width: 100% !important;
+                padding: 0 !important;
+                text-align: left !important;
+            }
+
+            .motivation-figure {
+                margin-top: 1rem;
+            }
+
+            .motivation-figure img {
+                max-width: 180px !important;
+                margin: 0 auto;
+            }
+
+            .paper-preview-section {
+                padding: 1.25rem !important;
+            }
+
+            .paper-preview-section .column {
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
+
+            .bal-container-small {
+                height: 280px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
   </style>
 </head>
 
@@ -105,6 +186,8 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
@@ -120,6 +203,7 @@
       </div>
     </nav>
   
+  <main>
   
   <section class="hero">
     <div class="hero-body">
@@ -266,9 +350,9 @@
       </div>
     </div>
   </div>
-  <h5 class="subtitle has-text-centered">
+  <p class="subtitle has-text-centered">
     Novel view ultrasound renders from <span class="dnerf">NeRF-US</span>.
-  </h5>
+  </p>
 </section>
 <p><br></p>
 
@@ -285,11 +369,11 @@ Current methods for performing 3D reconstruction and novel view synthesis (NVS) 
 
 <h2 id="motivation">Motivation</h2>
 
-<div style="display: flex; width: 100%;">
-    <div style="width: 75%; padding-right: 8px; text-align: left;">
+<div class="motivation-row" style="display: flex; width: 100%;">
+    <div class="motivation-copy" style="width: 75%; padding-right: 8px; text-align: left;">
         There are a few challenges common when using previous medical NeRF methods and standard methods: the need for high-quality, diverse datasets, capturing intricate details like <span style="color:red">tissue interface locations</span> critical for medical diagnosis, accurately modeling transparent and reflective surfaces. There are quite a few <span style="color:red">NeRF artifacts</span> that appear when using these methods in the wild. In contrast to this, our approach (as shown) produces artifact-free reconstructions with minor details accurately reconstructed.
     </div>
-    <div style="width: 15%; padding-left: 8px; text-align: right; display: flex; justify-content: center; align-items: center;">
+    <div class="motivation-figure" style="width: 15%; padding-left: 8px; text-align: right; display: flex; justify-content: center; align-items: center;">
         <img src="./assets/img/nerf-us/param.png" alt="Showcasing boundaries." style="width: 100%; height: auto; max-width: 90%;">
     </div>
 </div>
@@ -321,7 +405,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
               <div id="example1" class="bal-container-small">
 
                 <div class="bal-after">
-                  <img src="./assets/img/nerf-us/results/interactive/ours_0.jpg">
+                  <img src="./assets/img/nerf-us/results/interactive/ours_0.jpg" alt="NeRF-US reconstruction example 1">
                   <div class="bal-afterPosition afterLabel" style="z-index:1;">
                     Ours
                   </div>
@@ -329,7 +413,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
                 <div class="bal-before" style="width:96.4968152866242%;">
                   <div class="bal-before-inset" style="width: 512px;">
-                    <img src="./assets/img/nerf-us/results/interactive/nfacto_0.jpg">
+                    <img src="./assets/img/nerf-us/results/interactive/nfacto_0.jpg" alt="Nerfacto baseline example 1">
                     <div class="bal-beforePosition beforeLabel">
                       Nerfacto [Tancik 2023]
                     </div>
@@ -347,7 +431,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
               <div id="example2" class="bal-container-small">
 
                 <div class="bal-after">
-                  <img src="./assets/img/nerf-us/results/interactive/ours_1.jpg">
+                  <img src="./assets/img/nerf-us/results/interactive/ours_1.jpg" alt="NeRF-US reconstruction example 2">
                   <div class="bal-afterPosition afterLabel">
                     Ours
                   </div>
@@ -355,7 +439,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
                 <div class="bal-before" style="width: 50%;">
                   <div class="bal-before-inset" style="width: 512px;">
-                    <img src="./assets/img/nerf-us/results/interactive/nfacto_1.jpg">
+                    <img src="./assets/img/nerf-us/results/interactive/nfacto_1.jpg" alt="Nerfacto baseline example 2">
                     <div class="bal-beforePosition beforeLabel">
                       Nerfacto [Tancik 2023]
                     </div>
@@ -370,7 +454,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
               <div id="example3" class="bal-container-small">
 
                 <div class="bal-after">
-                  <img src="./assets/img/nerf-us/results/interactive/ours_2.jpg">
+                  <img src="./assets/img/nerf-us/results/interactive/ours_2.jpg" alt="NeRF-US reconstruction example 3">
                   <div class="bal-afterPosition afterLabel">
                     Ours
                   </div>
@@ -378,7 +462,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
                 <div class="bal-before" style="width: 50%;">
                   <div class="bal-before-inset" style="width: 512px;">
-                    <img src="./assets/img/nerf-us/results/interactive/nfacto_2.jpg">
+                    <img src="./assets/img/nerf-us/results/interactive/nfacto_2.jpg" alt="Nerfacto baseline example 3">
                     <div class="bal-beforePosition beforeLabel">
                       Nerfacto [Tancik 2023]
                     </div>
@@ -401,7 +485,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
             <div id="example4" class="bal-container-small">
               <div class="bal-after">
-                <img src="./assets/img/nerf-us/results/interactive/ours_0.jpg">
+                <img src="./assets/img/nerf-us/results/interactive/ours_0.jpg" alt="NeRF-US reconstruction example 1">
                 <div class="bal-afterPosition afterLabel" style="z-index:1;">
                   Ours
                 </div>
@@ -409,7 +493,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
               <div class="bal-before" style="width:62.10191082802548%;">
                 <div class="bal-before-inset" style="width: 512px;">
-                  <img src="./assets/img/nerf-us/results/interactive/un_0.jpg">
+                  <img src="./assets/img/nerf-us/results/interactive/un_0.jpg" alt="Ultra-NeRF baseline example 1">
                   <div class="bal-beforePosition beforeLabel">
                     Ultra-NeRF [Wysocki 2024]
                   </div>
@@ -425,7 +509,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
             <div id="example5" class="bal-container-small">
               <div class="bal-after">
-                <img src="./assets/img/nerf-us/results/interactive/ours_1.jpg">
+                <img src="./assets/img/nerf-us/results/interactive/ours_1.jpg" alt="NeRF-US reconstruction example 2">
                 <div class="bal-afterPosition afterLabel" style="z-index:1;">
                   Ours
                 </div>
@@ -433,7 +517,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
               <div class="bal-before" style="width:56.77179962894249%;">
                 <div class="bal-before-inset" style="width: 512px;">
-                  <img src="./assets/img/nerf-us/results/interactive/un_1.jpg">
+                  <img src="./assets/img/nerf-us/results/interactive/un_1.jpg" alt="Ultra-NeRF baseline example 2">
                   <div class="bal-beforePosition beforeLabel">
                     Ultra-NeRF [Wysocki 2024]
                   </div>
@@ -448,7 +532,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
             </div>
             <div id="example6" class="bal-container-small">
               <div class="bal-after">
-                <img src="./assets/img/nerf-us/results/interactive/ours_2.jpg">
+                <img src="./assets/img/nerf-us/results/interactive/ours_2.jpg" alt="NeRF-US reconstruction example 3">
                 <div class="bal-afterPosition afterLabel" style="z-index:1;">
                   Ours
                 </div>
@@ -456,7 +540,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
               <div class="bal-before" style="width:56.77179962894249%;">
                 <div class="bal-before-inset" style="width: 512px;">
-                  <img src="./assets/img/nerf-us/results/interactive/un_2.jpg">
+                  <img src="./assets/img/nerf-us/results/interactive/un_2.jpg" alt="Ultra-NeRF baseline example 3">
                   <div class="bal-beforePosition beforeLabel">
                     Ultra-NeRF [Wysocki 2024]
                   </div>
@@ -497,7 +581,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
   </script>
 
 <div class="content has-text-justified">
-  <img src="./assets/img/nerf-us/results.png" style="max-width: 80%; margin: 0 auto;">
+  <img src="./assets/img/nerf-us/results.png" alt="Qualitative NeRF-US reconstruction comparison" style="max-width: 80%; margin: 0 auto;">
   <p>Figure: <b>Qualitative Results.</b> We demonstrate the results of our method and compare it qualitatively with Nerfacto [1], Gaussian Splatting [3], and Ultra-NeRF [2]. Our approach, NeRF-US, produces accurate and high-quality reconstructions as compared to the baseline models on novel views (<b>best viewed with zoom</b>).</p>
 </div>
 
@@ -548,34 +632,34 @@ echo "All files have been processed."
 <section class="hero is-light is-small">
   <div class="hero-body">
     <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
+      <div id="dataset-carousel" class="carousel results-carousel">
         <div class="item item-steve">
-          <video poster="" id="steve" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
+          <video poster="" id="dataset-steve" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
             <source src="./assets/img/nerf-us/dataset/converted_0.mp4" type="video/mp4"></source>
           </video>
         </div>
         <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
+          <video poster="" id="dataset-chair-tp" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
             <source src="./assets/img/nerf-us/dataset/converted_1.mp4" type="video/mp4"></source>
           </video>
         </div>
         <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
+          <video poster="" id="dataset-shiba" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
             <source src="./assets/img/nerf-us/dataset/converted_2.mp4" type="video/mp4"></source>
           </video>
         </div>
         <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
+          <video poster="" id="dataset-fullbody" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
             <source src="./assets/img/nerf-us/dataset/converted_3.mp4" type="video/mp4"></source>
           </video>
         </div>
         <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
+          <video poster="" id="dataset-blueshirt" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
             <source src="./assets/img/nerf-us/dataset/converted_4.mp4" type="video/mp4"></source>
           </video>
         </div>
         <div class="item item-mask">
-          <video poster="" id="mask" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
+          <video poster="" id="dataset-mask" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
             <source src="./assets/img/nerf-us/dataset/converted_5.mp4" type="video/mp4"></source>
           </video>
         </div>
@@ -587,9 +671,9 @@ echo "All files have been processed."
       </div>
     </div>
   </div>
-  <h5 class="subtitle has-text-centered">
+  <p class="subtitle has-text-centered">
     Examples from our ultrasound in the wild dataset. 
-  </h5>
+  </p>
 </section>
 
 <h2 id="related-links">Related Links</h2>
@@ -663,7 +747,7 @@ series="Proceedings of Machine Learning Research",
 publisher="PMLR",
 url="https://proceedings.mlr.press/v252/dagli24a.html"
 }</code></pre>
-  <button class="button is-small is-dark" onclick="copyCitation()" style="position: absolute; top: 10px; right: 10px;">
+  <button class="button is-small is-dark" onclick="copyCitation()" aria-label="Copy citation" style="position: absolute; top: 10px; right: 10px;">
     <span class="icon">
       <i class="fas fa-copy"></i>
     </span>
@@ -682,13 +766,14 @@ url="https://proceedings.mlr.press/v252/dagli24a.html"
       </div>
     </div>
   </section>
+  </main>
   <footer class="footer">
     <div class="container">
       <div class="content has-text-centered">
-        <a class="icon-link" href="https://raw.githubusercontent.com/mlresearch/v252/main/assets/dagli24a/dagli24a.pdf">
+        <a class="icon-link" href="https://raw.githubusercontent.com/mlresearch/v252/main/assets/dagli24a/dagli24a.pdf" aria-label="NeRF-US paper PDF">
           <i class="fas fa-file-pdf"></i>
         </a>
-        <a class="icon-link" href="https://github.com/Rishit-dagli" disabled rel="external nofollow noopener" target="_blank">
+        <a class="icon-link" href="https://github.com/Rishit-dagli" aria-label="Rishit Dagli on GitHub" rel="external nofollow noopener" target="_blank">
           <i class="fab fa-github"></i>
         </a>
       </div>
