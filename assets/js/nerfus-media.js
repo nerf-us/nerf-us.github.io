@@ -10,9 +10,7 @@
 
   var ICON = {
     play: svg('M8 5v14l11-7z'),
-    pause: svg('M6 19h4V5H6v14zm8-14v14h4V5h-4z'),
-    prev: svg('M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z'),
-    next: svg('M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z')
+    pause: svg('M6 19h4V5H6v14zm8-14v14h4V5h-4z')
   };
 
   function h(tag, cls, html) {
@@ -159,7 +157,7 @@
   ClipPlayer.prototype.load = function (item) {
     this.item = item;
     this.duration = item.duration || 0;
-    this.video.setAttribute('aria-label', item.label || item.title);
+    this.video.setAttribute('aria-label', item.label);
     this.track.setAttribute('aria-valuemax', this.duration.toFixed(1));
     this.render(0);
     if (this.near) this.apply();
@@ -284,7 +282,8 @@
     this.root = root;
     this.data = data;
     this.items = data.clips || [];
-    this.items.forEach(function (it) { it.label = it.label || data.chip + ': ' + it.title; });
+    var n = this.items.length;
+    this.items.forEach(function (it, i) { it.label = data.chip + ' ' + (i + 1) + ' of ' + n; });
     this.index = -1;
     this.auto = true;
     this.hold = 0;
@@ -303,13 +302,10 @@
       onPlaying: function () { self.warmNext(); }
     });
 
-    var panel = h('div', 'nv-panel');
-    this.meta = h('div', 'nv-meta', '<span class="nv-chip">' + esc(this.data.chip) + '</span><span class="nv-count"></span>');
-    this.title = h('div', 'nv-title');
-    this.text = h('p', 'nv-text');
+    this.badge = h('span', 'nv-badge');
+    this.player.stage.append(this.badge);
     var tags = h('ul', 'nv-tags');
     (this.data.tags || []).forEach(function (t) { tags.append(h('li', null, esc(t))); });
-    panel.append(this.meta, this.title, this.text, tags);
 
     var strip = h('div', 'nv-strip');
     var head = h('div', 'nv-strip-head', '<span class="nv-strip-label">' + esc(this.data.label) + '</span>');
@@ -319,27 +315,20 @@
     this.autoBtn.addEventListener('click', function () { self.setAuto(!self.auto); });
     head.append(this.autoBtn);
 
-    var row = h('div', 'nv-strip-row');
-    var prev = button('nv-nav', ICON.prev, 'Previous clip');
-    var next = button('nv-nav', ICON.next, 'Next clip');
-    prev.addEventListener('click', function () { self.pick(self.index - 1); });
-    next.addEventListener('click', function () { self.pick(self.index + 1); });
-    this.thumbs = h('div', 'nv-thumbs');
+    this.thumbs = h('div', n % 2 ? 'nv-thumbs is-odd' : 'nv-thumbs');
     this.thumbs.setAttribute('role', 'group');
     this.thumbs.setAttribute('aria-label', this.data.label);
     items.forEach(function (it, i) {
-      var b = button('nv-thumb', null, 'Play clip ' + (i + 1) + ' of ' + n + ': ' + it.title);
+      var b = button('nv-thumb', null, 'Play ' + it.label);
       b.innerHTML = '<span class="nv-thumb-img"><img src="' + esc(it.thumb) + '" alt="" width="220" height="250" loading="lazy" decoding="async">' +
-        '<span class="nv-thumb-n">' + (i + 1) + '</span><span class="nv-thumb-bar"></span></span>' +
-        '<span class="nv-thumb-label">' + esc(it.title) + '</span>';
+        '<span class="nv-thumb-n">' + (i + 1) + '</span><span class="nv-thumb-bar"></span></span>';
       b.addEventListener('click', function () { self.pick(i); });
       self.thumbs.append(b);
     });
-    row.append(prev, this.thumbs, next);
-    strip.append(head, row);
+    strip.append(head, this.thumbs);
 
     var layout = h('div', 'nv-layout');
-    layout.append(this.player.el, panel, strip);
+    layout.append(this.player.el, tags, strip);
     var body = this.root.querySelector('.nv-body');
     body.innerHTML = '';
     body.append(layout);
@@ -377,9 +366,7 @@
     var it = this.items[i];
     var cur = this.thumbs.children[i];
     cur.setAttribute('aria-current', 'true');
-    this.meta.lastChild.textContent = (i + 1) + ' / ' + n;
-    this.title.textContent = it.title;
-    this.text.textContent = it.text;
+    this.badge.textContent = this.data.chip + ' · ' + (i + 1) + ' / ' + n;
     this.scrollThumb(cur);
     this.player.load(it);
     if (this.player.near) this.warmNext();
