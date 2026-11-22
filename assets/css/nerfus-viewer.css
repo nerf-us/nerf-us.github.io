@@ -1,0 +1,589 @@
+:root {
+  --nv-text: #1f2937;
+  --nv-border: #e4e7ec;
+  --nv-card: #ffffff;
+  --nv-soft: #f0f8ff;
+  --nv-stage: #000;
+  --nv-accent: #1769aa;
+  --nv-accent-strong: #174ea6;
+  --nv-accent-soft: #e3eefa;
+  --nv-accent-line: #c9dcf0;
+  --nv-radius: 14px;
+  --nv-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 8px 24px rgba(16, 24, 40, 0.06);
+  --nv-tap: 2.75rem;
+}
+
+.nv-viewer {
+  --nv-aspect: 516 / 588;
+  margin: 1.5rem 0 0.6rem;
+  padding: 1.25rem;
+  color: var(--nv-text);
+  text-align: left;
+  background: var(--nv-card);
+  border: 1px solid var(--nv-border);
+  border-radius: var(--nv-radius);
+  box-shadow: var(--nv-shadow);
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.nv-viewer svg {
+  fill: currentColor;
+}
+
+.nv-viewer button:focus-visible,
+.nv-track:focus-visible {
+  outline: 3px solid var(--nv-accent);
+  outline-offset: 2px;
+}
+
+.nv-viewer.is-failed .nv-body::before {
+  content: 'The clips could not be loaded.';
+  display: block;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.nv-skeleton {
+  width: min(100%, 29rem);
+  aspect-ratio: var(--nv-aspect);
+  border-radius: 12px;
+  background: var(--nv-stage);
+}
+
+/* Desktop: player on the left; context panel and a 4-across thumbnail grid on the right. */
+.nv-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 29rem) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'player panel'
+    'player strip';
+  gap: 1rem 1.6rem;
+}
+
+.nv-player {
+  grid-area: player;
+  min-width: 0;
+}
+
+.nv-panel {
+  grid-area: panel;
+}
+
+.nv-strip {
+  grid-area: strip;
+  align-self: end;
+  min-width: 0;
+}
+
+/* ---------- Player ---------- */
+
+.nv-stage {
+  position: relative;
+  width: min(100%, calc(78vh * (var(--nv-aspect))));
+  margin: 0 auto;
+  aspect-ratio: var(--nv-aspect);
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--nv-stage);
+}
+
+.nv-stage video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--nv-stage);
+  cursor: pointer;
+}
+
+.nv-bigplay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: none;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  margin: -2rem 0 0 -2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--nv-accent-strong);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.nv-bigplay svg {
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-left: 0.2rem;
+}
+
+.nv-stage.is-paused .nv-bigplay {
+  display: grid;
+}
+
+.nv-stage.is-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin: -1.1rem 0 0 -1.1rem;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: nv-spin 0.8s linear infinite;
+}
+
+.nv-stage.is-paused.is-loading::after {
+  display: none;
+}
+
+@keyframes nv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.nv-timeline {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.4rem;
+}
+
+.nv-play,
+.nv-nav {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--nv-tap);
+  height: var(--nv-tap);
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--nv-border);
+  border-radius: 50%;
+  background: var(--nv-card);
+  color: var(--nv-text);
+  cursor: pointer;
+}
+
+.nv-play svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.nv-nav svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.nv-play:hover,
+.nv-nav:hover {
+  background: var(--nv-soft);
+  border-color: var(--nv-accent-line);
+}
+
+.nv-track {
+  position: relative;
+  flex: 1;
+  height: var(--nv-tap);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.nv-track::before,
+.nv-fill {
+  position: absolute;
+  top: 50%;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 3px;
+}
+
+.nv-track::before {
+  content: '';
+  left: 0;
+  right: 0;
+  background: #e5e9ef;
+}
+
+.nv-fill {
+  left: 0;
+  width: 0;
+  background: var(--nv-accent);
+}
+
+.nv-knob {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--nv-accent);
+  box-shadow: 0 0 0 3px #fff, 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease;
+}
+
+.nv-track:hover .nv-knob,
+.nv-track.is-dragging .nv-knob {
+  transform: scale(1.2);
+}
+
+.nv-time {
+  flex: none;
+  min-width: 4.6em;
+  text-align: right;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Context panel ---------- */
+
+.nv-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.nv-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.nv-chip {
+  display: inline-flex;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--nv-accent-soft);
+  color: var(--nv-accent-strong);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.nv-count {
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.nv-title {
+  font-family: 'Google Sans', 'Noto Sans', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #111827;
+}
+
+.content p.nv-text {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.content ul.nv-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.content ul.nv-tags li {
+  margin: 0;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid #d0e2f4;
+  border-radius: 999px;
+  background: var(--nv-soft);
+  color: var(--nv-accent-strong);
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+/* ---------- Thumbnails ---------- */
+
+.nv-strip {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--nv-border);
+}
+
+.nv-strip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.nv-strip-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.nv-auto {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--nv-tap);
+  margin: 0;
+  padding: 0 0.25rem;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--nv-text);
+  font: inherit;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nv-auto-track {
+  position: relative;
+  width: 2.3rem;
+  height: 1.3rem;
+  border-radius: 999px;
+  background: #b8c0cc;
+  transition: background 0.2s ease;
+}
+
+.nv-auto-track::after {
+  content: '';
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.nv-auto[aria-checked='true'] .nv-auto-track {
+  background: var(--nv-accent);
+}
+
+.nv-auto[aria-checked='true'] .nv-auto-track::after {
+  transform: translateX(1rem);
+}
+
+.nv-strip-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nv-nav {
+  display: none;
+  margin-bottom: 2rem;
+}
+
+.nv-thumbs {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 0.7rem 0.65rem;
+  min-width: 0;
+  padding: 4px;
+}
+
+.nv-thumb {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--nv-text);
+  font: inherit;
+  text-align: left;
+  scroll-snap-align: start;
+  cursor: pointer;
+}
+
+.nv-thumb-img {
+  position: relative;
+  display: block;
+  aspect-ratio: var(--nv-aspect);
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--nv-stage);
+  outline: 3px solid transparent;
+  outline-offset: 1px;
+  transition: outline-color 0.15s ease;
+}
+
+.nv-thumb-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nv-thumb:hover .nv-thumb-img {
+  outline-color: var(--nv-accent-line);
+}
+
+.nv-thumb[aria-current='true'] .nv-thumb-img {
+  outline-color: var(--nv-accent);
+}
+
+.nv-thumb-n {
+  position: absolute;
+  top: 0.35rem;
+  left: 0.35rem;
+  display: grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.nv-thumb[aria-current='true'] .nv-thumb-n {
+  background: var(--nv-accent);
+}
+
+.nv-thumb-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 4px;
+  background: var(--nv-accent);
+}
+
+.nv-thumb-label {
+  display: -webkit-box;
+  margin-top: 0.4rem;
+  overflow: hidden;
+  font-size: 0.86rem;
+  line-height: 1.3;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.nv-thumb[aria-current='true'] .nv-thumb-label {
+  color: var(--nv-accent-strong);
+  font-weight: 600;
+}
+
+.content p.nv-caption {
+  margin: 0.5rem 0 2rem;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+/* ---------- Responsive ---------- */
+
+/* Tablet: thumbnails become a scrollable strip under the panel. */
+@media (max-width: 1023px) {
+  .nv-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .nv-nav {
+    display: grid;
+  }
+
+  .nv-thumbs {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .nv-thumb {
+    flex: none;
+    width: 6rem;
+  }
+}
+
+/* Phone: stacked player, swipeable strip, then the panel. */
+@media (max-width: 700px) {
+  .nv-viewer {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    padding: 0.75rem;
+  }
+
+  .nv-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      'player'
+      'strip'
+      'panel';
+    gap: 0.9rem;
+  }
+
+  .nv-nav {
+    display: none;
+  }
+
+  .nv-strip {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .nv-strip-head {
+    margin-bottom: 0.2rem;
+  }
+
+  .nv-thumbs {
+    gap: 0.6rem;
+    margin: 0 -0.75rem;
+    padding: 4px 0.75rem 0.4rem;
+    scroll-padding: 0 0.75rem;
+  }
+
+  .nv-thumb {
+    width: 5.6rem;
+  }
+
+  .nv-panel {
+    gap: 0.6rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--nv-border);
+  }
+
+  .nv-title {
+    font-size: 1.3rem;
+  }
+
+  .content p.nv-text {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nv-stage.is-loading::after {
+    animation: none;
+  }
+
+  .nv-auto-track,
+  .nv-auto-track::after,
+  .nv-knob {
+    transition: none;
+  }
+}

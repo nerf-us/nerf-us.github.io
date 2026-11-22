@@ -46,31 +46,23 @@
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
   <link rel="stylesheet" href="./assets/css/bulma.min.css">
-  <link rel="stylesheet" href="./assets/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./assets/css/bulma-slider.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./assets/css/nerfies_general.css">
+  <link rel="stylesheet" href="./assets/css/nerfus-viewer.css">
   <!-- <link rel="icon" href="./assets/img/emojis/nerfus.png"> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./assets/js/fontawesome.all.min.js"></script>
-  <script src="./assets/js/bulma-carousel.min.js"></script>
-  <script src="./assets/js/bulma-slider.min.js"></script>
+  <script defer src="./assets/js/nerfus-media.js"></script>
   <script src="./assets/js/nerfies_index.js"></script>
   <script src="./assets/js/nerfies_comparision.js"></script>
 
   
 
-  <script>
-    function toggleCodeBlock() {
-      var codeBlock = document.getElementById("bashCodeBlock");
-      if (codeBlock.style.display === "none") {
-        codeBlock.style.display = "block";
-      } else {
-        codeBlock.style.display = "none";
-      }
-    }
-  </script>
   <style>
+    .publication-title {
+        text-wrap: balance;
+    }
+
     h1 img {
         width: 50px; /* Adjust the width as needed */
         height: auto; /* Maintain the aspect ratio */
@@ -143,6 +135,11 @@
         }
 
         @media (max-width: 768px) {
+            .title.is-1.publication-title {
+                font-size: 2.1rem;
+                line-height: 1.2;
+            }
+
             .motivation-row {
                 flex-direction: column;
             }
@@ -190,7 +187,7 @@
         <div class="columns is-centered">
           <div class="column has-text-centered">
             
-              <h1 class="title is-1 publication-title">NeRF-US<span>👤👤:</span> Neural Radiance Fields for Accurate Ultrasound Imaging in the Wild</h1>
+              <h1 class="title is-1 publication-title">NeRF-US: Removing Ultrasound Imaging Artifacts from Neural Radiance Fields in the Wild</h1>
             
             
             <div class="is-size-5 publication-authors">
@@ -288,51 +285,38 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="./assets/img/nerf-us/teaser.png" alt="NeRF-US Teaser Image" style="max-width: 100%; margin: 0 auto;">
+      <img src="./assets/img/nerf-us/web/teaser-960.webp" srcset="./assets/img/nerf-us/web/teaser-960.webp 960w, ./assets/img/nerf-us/web/teaser-1600.webp 1600w" sizes="(max-width: 1023px) 100vw, 912px" width="1974" height="766" fetchpriority="high" alt="NeRF-US Teaser Image" style="max-width: 100%; margin: 0 auto;">
     </div>
   </div>
 </section>
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/results/converted_0.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/results/converted_1.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/results/converted_2.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/results/converted_3.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/results/converted_4.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/results/converted_5.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-  <p class="subtitle has-text-centered">
-    Novel view ultrasound renders from <span class="dnerf">NeRF-US</span>.
-  </p>
-</section>
+<div class="nv-viewer" id="results-viewer" role="region" aria-label="NeRF-US novel view renders">
+  <script type="application/json">
+  {
+    "chip": "NeRF-US render",
+    "label": "6 novel-view renders",
+    "aspect": "516 / 588",
+    "tags": ["Novel views", "Human knee", "Casual hand-held input"],
+    "clips": [
+      {"src": "./assets/img/nerf-us/results/converted_1.mp4", "poster": "./assets/img/nerf-us/web/posters/results_1.webp", "thumb": "./assets/img/nerf-us/web/thumbs/results_1.webp", "duration": 17.02,
+       "title": "Curved interface", "text": "A bright, curved tissue interface stays sharp and continuous as the rendered view moves."},
+      {"src": "./assets/img/nerf-us/results/converted_4.mp4", "poster": "./assets/img/nerf-us/web/posters/results_4.webp", "thumb": "./assets/img/nerf-us/web/thumbs/results_4.webp", "duration": 17.02,
+       "title": "Interface sweeping in", "text": "The rendered view travels through softer tissue until a bright, curved interface comes into view."},
+      {"src": "./assets/img/nerf-us/results/converted_2.mp4", "poster": "./assets/img/nerf-us/web/posters/results_2.webp", "thumb": "./assets/img/nerf-us/web/thumbs/results_2.webp", "duration": 17.02,
+       "title": "Layered tissue", "text": "Thin, parallel tissue layers rendered as clean, evenly spaced bands."},
+      {"src": "./assets/img/nerf-us/results/converted_5.mp4", "poster": "./assets/img/nerf-us/web/posters/results_5.webp", "thumb": "./assets/img/nerf-us/web/thumbs/results_5.webp", "duration": 16.97,
+       "title": "Several viewpoints", "text": "A longer path through several distinct viewpoints, each with its own curved interfaces."},
+      {"src": "./assets/img/nerf-us/results/converted_3.mp4", "poster": "./assets/img/nerf-us/web/posters/results_3.webp", "thumb": "./assets/img/nerf-us/web/thumbs/results_3.webp", "duration": 17.02,
+       "title": "Fibrous texture", "text": "Layered bands near the surface give way to an oblique, fibrous texture partway through."},
+      {"src": "./assets/img/nerf-us/results/converted_0.mp4", "poster": "./assets/img/nerf-us/web/posters/results_0.webp", "thumb": "./assets/img/nerf-us/web/thumbs/results_0.webp", "duration": 17.02,
+       "title": "Speckled tissue", "text": "Softer, speckled tissue with a faint interface near the bottom of the view."}
+    ]
+  }
+  </script>
+  <div class="nv-body"><div class="nv-skeleton"></div></div>
+</div>
+<p class="nv-caption">
+  Novel view ultrasound renders from <span class="dnerf">NeRF-US</span>.
+</p>
 <p><br></p>
 
 <div class="columns is-centered has-text-centered">
@@ -353,7 +337,7 @@ Current methods for performing 3D reconstruction and novel view synthesis (NVS) 
         There are a few challenges common when using previous medical NeRF methods and standard methods: the need for high-quality, diverse datasets, capturing intricate details like <span style="color:red">tissue interface locations</span> critical for medical diagnosis, accurately modeling transparent and reflective surfaces. There are quite a few <span style="color:red">NeRF artifacts</span> that appear when using these methods in the wild. In contrast to this, our approach (as shown) produces artifact-free reconstructions with minor details accurately reconstructed.
     </div>
     <div class="motivation-figure" style="width: 15%; padding-left: 8px; text-align: right; display: flex; justify-content: center; align-items: center;">
-        <img src="./assets/img/nerf-us/param.png" alt="Showcasing boundaries." style="width: 100%; height: auto; max-width: 90%;">
+        <img src="./assets/img/nerf-us/web/param-200.webp" srcset="./assets/img/nerf-us/web/param-200.webp 200w, ./assets/img/nerf-us/web/param-400.webp 400w" sizes="(max-width: 768px) 180px, 130px" width="1750" height="2000" loading="lazy" decoding="async" alt="Showcasing boundaries." style="width: 100%; height: auto; max-width: 90%;">
     </div>
 </div>
 
@@ -362,13 +346,13 @@ Current methods for performing 3D reconstruction and novel view synthesis (NVS) 
 <p>Our goal is to produce a 3D representation given a set of ultrasound images taken in the wild and their camera positions. The first step of our approach relies on the training of a <span style="color:red">3D diffusion model</span>, which can serve as geometric priors for our NeRF model. This diffusion model produces an 32 x 32 x 32 occupancy grid. To create this diffusion model, we finetune the 3D diffusion model on a small dataset of voxels around the human knee generated synthetically.</p>
 
 <div class="content has-text-justified">
-<img src="./assets/img/nerf-us/diffusion.png" alt="How to create diffusion model?" style="max-width: 90%; margin: 0 auto;">
+<img src="./assets/img/nerf-us/web/diffusion-960.webp" srcset="./assets/img/nerf-us/web/diffusion-960.webp 960w, ./assets/img/nerf-us/web/diffusion-1800.webp 1800w" sizes="(max-width: 1023px) 90vw, 830px" width="4320" height="1650" loading="lazy" decoding="async" alt="How to create diffusion model?" style="max-width: 90%; margin: 0 auto;">
 <p>Figure: An overview of how our diffusion model is fine-tuned, we use 32<sup>3</sup>-sized patches to LoRA-finetune a 3D diffusion model trained on ShapeNet.</p>
 
 We now train our NeRF model that takes in a 3D vector (denoting positions in 3D) and learns a 5D vector (attenuation, reflectance, border probability, scattering density, and scattering intensity). While training this NeRF, we run the outputs through the diffusion model and obtain <span style="color:red">guidance vectors</span> for <span style="color:red">border probability</span> and <span style="color:red">scattering density</span>. These are added to the photometric loss. We finally train the NeRF with this final loss we calculated.
 
 <div class="content has-text-justified">
-<img src="./assets/img/nerf-us/methods.png" alt="How to train our model?" style="max-width: 90%; margin: 0 auto;">
+<img src="./assets/img/nerf-us/web/methods-960.webp" srcset="./assets/img/nerf-us/web/methods-960.webp 960w, ./assets/img/nerf-us/web/methods-1800.webp 1800w" sizes="(max-width: 1023px) 90vw, 830px" width="4320" height="1370" loading="lazy" decoding="async" alt="How to train our model?" style="max-width: 90%; margin: 0 auto;">
 <p>Figure: An overview of how our method works. We train a NeRF model that uses ultrasound rendering to convert the representations into a 2D image after which we infer through a 3D diffusion model which has geometry priors through which we calculate a modified loss definition to train the NeRF.</p>
 
 <h2 id="visual-results">Visual Results</h2>
@@ -384,7 +368,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
               <div id="example1" class="bal-container-small">
 
                 <div class="bal-after">
-                  <img src="./assets/img/nerf-us/results/interactive/ours_0.jpg" alt="NeRF-US reconstruction example 1">
+                  <img src="./assets/img/nerf-us/web/interactive/ours_0.webp" width="512" height="588" loading="lazy" decoding="async" alt="NeRF-US reconstruction example 1">
                   <div class="bal-afterPosition afterLabel" style="z-index:1;">
                     Ours
                   </div>
@@ -392,7 +376,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
                 <div class="bal-before" style="width:96.4968152866242%;">
                   <div class="bal-before-inset" style="width: 512px;">
-                    <img src="./assets/img/nerf-us/results/interactive/nfacto_0.jpg" alt="Nerfacto baseline example 1">
+                    <img src="./assets/img/nerf-us/web/interactive/nfacto_0.webp" width="512" height="588" loading="lazy" decoding="async" alt="Nerfacto baseline example 1">
                     <div class="bal-beforePosition beforeLabel">
                       Nerfacto [Tancik 2023]
                     </div>
@@ -410,7 +394,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
               <div id="example2" class="bal-container-small">
 
                 <div class="bal-after">
-                  <img src="./assets/img/nerf-us/results/interactive/ours_1.jpg" alt="NeRF-US reconstruction example 2">
+                  <img src="./assets/img/nerf-us/web/interactive/ours_1.webp" width="512" height="588" loading="lazy" decoding="async" alt="NeRF-US reconstruction example 2">
                   <div class="bal-afterPosition afterLabel">
                     Ours
                   </div>
@@ -418,7 +402,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
                 <div class="bal-before" style="width: 50%;">
                   <div class="bal-before-inset" style="width: 512px;">
-                    <img src="./assets/img/nerf-us/results/interactive/nfacto_1.jpg" alt="Nerfacto baseline example 2">
+                    <img src="./assets/img/nerf-us/web/interactive/nfacto_1.webp" width="512" height="588" loading="lazy" decoding="async" alt="Nerfacto baseline example 2">
                     <div class="bal-beforePosition beforeLabel">
                       Nerfacto [Tancik 2023]
                     </div>
@@ -433,7 +417,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
               <div id="example3" class="bal-container-small">
 
                 <div class="bal-after">
-                  <img src="./assets/img/nerf-us/results/interactive/ours_2.jpg" alt="NeRF-US reconstruction example 3">
+                  <img src="./assets/img/nerf-us/web/interactive/ours_2.webp" width="512" height="588" loading="lazy" decoding="async" alt="NeRF-US reconstruction example 3">
                   <div class="bal-afterPosition afterLabel">
                     Ours
                   </div>
@@ -441,7 +425,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
                 <div class="bal-before" style="width: 50%;">
                   <div class="bal-before-inset" style="width: 512px;">
-                    <img src="./assets/img/nerf-us/results/interactive/nfacto_2.jpg" alt="Nerfacto baseline example 3">
+                    <img src="./assets/img/nerf-us/web/interactive/nfacto_2.webp" width="512" height="588" loading="lazy" decoding="async" alt="Nerfacto baseline example 3">
                     <div class="bal-beforePosition beforeLabel">
                       Nerfacto [Tancik 2023]
                     </div>
@@ -464,7 +448,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
             <div id="example4" class="bal-container-small">
               <div class="bal-after">
-                <img src="./assets/img/nerf-us/results/interactive/ours_0.jpg" alt="NeRF-US reconstruction example 1">
+                <img src="./assets/img/nerf-us/web/interactive/ours_0.webp" width="512" height="588" loading="lazy" decoding="async" alt="NeRF-US reconstruction example 1">
                 <div class="bal-afterPosition afterLabel" style="z-index:1;">
                   Ours
                 </div>
@@ -472,7 +456,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
               <div class="bal-before" style="width:62.10191082802548%;">
                 <div class="bal-before-inset" style="width: 512px;">
-                  <img src="./assets/img/nerf-us/results/interactive/un_0.jpg" alt="Ultra-NeRF baseline example 1">
+                  <img src="./assets/img/nerf-us/web/interactive/un_0.webp" width="512" height="588" loading="lazy" decoding="async" alt="Ultra-NeRF baseline example 1">
                   <div class="bal-beforePosition beforeLabel">
                     Ultra-NeRF [Wysocki 2024]
                   </div>
@@ -488,7 +472,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
             <div id="example5" class="bal-container-small">
               <div class="bal-after">
-                <img src="./assets/img/nerf-us/results/interactive/ours_1.jpg" alt="NeRF-US reconstruction example 2">
+                <img src="./assets/img/nerf-us/web/interactive/ours_1.webp" width="512" height="588" loading="lazy" decoding="async" alt="NeRF-US reconstruction example 2">
                 <div class="bal-afterPosition afterLabel" style="z-index:1;">
                   Ours
                 </div>
@@ -496,7 +480,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
               <div class="bal-before" style="width:56.77179962894249%;">
                 <div class="bal-before-inset" style="width: 512px;">
-                  <img src="./assets/img/nerf-us/results/interactive/un_1.jpg" alt="Ultra-NeRF baseline example 2">
+                  <img src="./assets/img/nerf-us/web/interactive/un_1.webp" width="512" height="588" loading="lazy" decoding="async" alt="Ultra-NeRF baseline example 2">
                   <div class="bal-beforePosition beforeLabel">
                     Ultra-NeRF [Wysocki 2024]
                   </div>
@@ -511,7 +495,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
             </div>
             <div id="example6" class="bal-container-small">
               <div class="bal-after">
-                <img src="./assets/img/nerf-us/results/interactive/ours_2.jpg" alt="NeRF-US reconstruction example 3">
+                <img src="./assets/img/nerf-us/web/interactive/ours_2.webp" width="512" height="588" loading="lazy" decoding="async" alt="NeRF-US reconstruction example 3">
                 <div class="bal-afterPosition afterLabel" style="z-index:1;">
                   Ours
                 </div>
@@ -519,7 +503,7 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
               <div class="bal-before" style="width:56.77179962894249%;">
                 <div class="bal-before-inset" style="width: 512px;">
-                  <img src="./assets/img/nerf-us/results/interactive/un_2.jpg" alt="Ultra-NeRF baseline example 3">
+                  <img src="./assets/img/nerf-us/web/interactive/un_2.webp" width="512" height="588" loading="lazy" decoding="async" alt="Ultra-NeRF baseline example 3">
                   <div class="bal-beforePosition beforeLabel">
                     Ultra-NeRF [Wysocki 2024]
                   </div>
@@ -560,13 +544,13 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
   </script>
 
 <div class="content has-text-justified">
-  <img src="./assets/img/nerf-us/results.png" alt="Qualitative NeRF-US reconstruction comparison" style="max-width: 80%; margin: 0 auto;">
-  <p>Figure: <b>Qualitative Results.</b> We demonstrate the results of our method and compare it qualitatively with Nerfacto [1], Gaussian Splatting [3], and Ultra-NeRF [2]. Our approach, NeRF-US, produces accurate and high-quality reconstructions as compared to the baseline models on novel views (<b>best viewed with zoom</b>).</p>
+  <img src="./assets/img/nerf-us/web/results-800.webp" srcset="./assets/img/nerf-us/web/results-800.webp 800w, ./assets/img/nerf-us/web/results-1755.webp 1755w" sizes="(max-width: 1023px) 80vw, 740px" width="1755" height="1622" loading="lazy" decoding="async" alt="Qualitative NeRF-US reconstruction comparison" style="max-width: 80%; margin: 0 auto;">
+  <p>Figure: <b>Qualitative Results.</b> We demonstrate the results of our method and compare it qualitatively with Nerfacto [Tancik 2023], Gaussian Splatting [Kerbl 2023], and Ultra-NeRF [Wysocki 2024]. Our approach, NeRF-US, produces accurate and high-quality reconstructions as compared to the baseline models on novel views (<b>best viewed with zoom</b>).</p>
 </div>
 
 <div class="content has-text-justified">
-<img src="./assets/img/nerf-us/resultsdepth.png" alt="Depth comparisons" style="max-width: 80%; margin: 0 auto;">
-<p>Figure: <b>Qualitative Results.</b> We demonstrate the results of depth maps produced from our method and compare them qualitatively with Nerfacto [1], Gaussian Splatting [3], and Ultra-NeRF [2] (<b>best viewed in color and with zoom</b>).</p>
+<img src="./assets/img/nerf-us/web/resultsdepth-730.webp" width="730" height="363" loading="lazy" decoding="async" alt="Depth comparisons" style="max-width: 80%; margin: 0 auto;">
+<p>Figure: <b>Qualitative Results.</b> We demonstrate the results of depth maps produced from our method and compare them qualitatively with Nerfacto [Tancik 2023], Gaussian Splatting [Kerbl 2023], and Ultra-NeRF [Wysocki 2024] (<b>best viewed in color and with zoom</b>).</p>
 
 </div>
 <script>
@@ -579,91 +563,36 @@ We now train our NeRF model that takes in a 3D vector (denoting positions in 3D)
 
 Here we show some instances of our new ultrasound in the wild dataset, we limit the visualizations of the dataset to the first 10 seconds of some of the scenes in our dataset. For visualization, we pre-process these videos with a script.<br><br>
 
-<div class="content">
-  <button class="button is-black is-block" onclick="toggleCodeBlock()">Show pre-processing script</button>
-  <div id="bashCodeBlock" style="display: none;">
-    <pre><code class="language-bash">#!/bin/bash
-
-TARGET_BITRATE="1700k"
-
-for i in {0..6}
-do
-  inputFile="converted_${i}.mp4"
-  outputFile="temp_${inputFile}"
-
-  echo "Processing $inputFile..."
-
-  ffmpeg -i "$inputFile" -vcodec h264 -acodec aac -b:v $TARGET_BITRATE -strict -2 "$outputFile"
-
-  if [ $? -eq 0 ]; then
-    mv "$outputFile" "$inputFile"
-    echo "$inputFile has been successfully converted to a browser-compatible format and overwritten."
-  else
-    echo "An error occurred while converting $inputFile."
-  fi
-done
-
-echo "All files have been processed."
-</code></pre>
-  </div>
+<div class="nv-viewer" id="dataset-viewer" role="region" aria-label="Ultrasound in the wild dataset sweeps">
+  <script type="application/json">
+  {
+    "chip": "Dataset sweep",
+    "label": "7 dataset sweeps",
+    "aspect": "516 / 588",
+    "tags": ["Hand-held Butterfly iQ+", "Human knee", "First 10 s"],
+    "clips": [
+      {"src": "./assets/img/nerf-us/web/clips/dataset_1.mp4", "poster": "./assets/img/nerf-us/web/posters/dataset_1.webp", "thumb": "./assets/img/nerf-us/web/thumbs/dataset_1.webp", "duration": 10,
+       "title": "Curved interface", "text": "The probe sweeps through soft tissue until a bright, curved interface comes into view."},
+      {"src": "./assets/img/nerf-us/web/clips/dataset_2.mp4", "poster": "./assets/img/nerf-us/web/posters/dataset_2.webp", "thumb": "./assets/img/nerf-us/web/thumbs/dataset_2.webp", "duration": 10,
+       "title": "Interface in and out", "text": "A curved interface sweeps into view, then fades as the probe angle changes."},
+      {"src": "./assets/img/nerf-us/web/clips/dataset_6.mp4", "poster": "./assets/img/nerf-us/web/posters/dataset_6.webp", "thumb": "./assets/img/nerf-us/web/thumbs/dataset_6.webp", "duration": 10.02,
+       "title": "Growing shadow", "text": "Parallel tissue layers with a dark shadow that grows along the lower right of the view."},
+      {"src": "./assets/img/nerf-us/web/clips/dataset_3.mp4", "poster": "./assets/img/nerf-us/web/posters/dataset_3.webp", "thumb": "./assets/img/nerf-us/web/thumbs/dataset_3.webp", "duration": 10,
+       "title": "Speckled tissue", "text": "Speckled soft tissue with small dark pockets drifting through the view."},
+      {"src": "./assets/img/nerf-us/web/clips/dataset_0.mp4", "poster": "./assets/img/nerf-us/web/posters/dataset_0.webp", "thumb": "./assets/img/nerf-us/web/thumbs/dataset_0.webp", "duration": 10,
+       "title": "Losing contrast", "text": "A bright interface near the top loses contrast as the sweep goes on."},
+      {"src": "./assets/img/nerf-us/web/clips/dataset_5.mp4", "poster": "./assets/img/nerf-us/web/posters/dataset_5.webp", "thumb": "./assets/img/nerf-us/web/thumbs/dataset_5.webp", "duration": 10.01,
+       "title": "Cluttered start", "text": "Opens with bright, cluttered frames before the view settles into layered tissue."},
+      {"src": "./assets/img/nerf-us/web/clips/dataset_4.mp4", "poster": "./assets/img/nerf-us/web/posters/dataset_4.webp", "thumb": "./assets/img/nerf-us/web/thumbs/dataset_4.webp", "duration": 10.01,
+       "title": "Washed-out frames", "text": "Bright, washed-out frames interrupt an otherwise layered view."}
+    ]
+  }
+  </script>
+  <div class="nv-body"><div class="nv-skeleton"></div></div>
 </div>
-
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="dataset-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="dataset-steve" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/dataset/converted_0.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="dataset-chair-tp" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/dataset/converted_1.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="dataset-shiba" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/dataset/converted_2.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="dataset-fullbody" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/dataset/converted_3.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="dataset-blueshirt" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/dataset/converted_4.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="dataset-mask" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/dataset/converted_5.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-            <source src="./assets/img/nerf-us/dataset/converted_6.mp4" type="video/mp4"></source>
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-  <p class="subtitle has-text-centered">
-    Examples from our ultrasound in the wild dataset. 
-  </p>
-</section>
-
-<h2 id="related-links">Related Links</h2>
-
-The following works were mentioned on this page:<br><br>
-
-[1] Tancik, Matthew, et al. "Nerfstudio: A modular framework for neural radiance field development." ACM SIGGRAPH 2023 Conference Proceedings. 2023.<br><br>
-
-[2] Wysocki, Magdalena, et al. "Ultra-nerf: neural radiance fields for ultrasound imaging." Medical Imaging with Deep Learning. PMLR, 2024.<br><br>
-
-[3] Kerbl, Bernhard, et al. "3d gaussian splatting for real-time radiance field rendering." ACM Transactions on Graphics 42.4 (2023): 1-14.
+<p class="nv-caption">
+  Examples from our ultrasound in the wild dataset.
+</p>
 
 <h2 id="paper">Paper</h2>
 
@@ -672,7 +601,7 @@ The following works were mentioned on this page:<br><br>
     <div class="paper-preview-section" style="background-color: #fafafa; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
       <div class="columns is-vcentered">
         <div class="column is-5" style="padding-right: 2.5rem;">
-          <img src="./assets/img/nerf-us/paper_preview.png" alt="Paper thumbnail" class="image" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%;">
+          <img src="./assets/img/nerf-us/web/paper_preview-400.webp" srcset="./assets/img/nerf-us/web/paper_preview-400.webp 400w, ./assets/img/nerf-us/web/paper_preview-800.webp 800w" sizes="(max-width: 768px) 90vw, 340px" width="1275" height="1650" loading="lazy" decoding="async" alt="Paper thumbnail" class="image" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%;">
         </div>
         <div class="column is-7" style="padding-left: 3rem;">
           <h2 class="title is-5 mb-2">NeRF-US: Removing Ultrasound Imaging Artifacts from Neural Radiance Fields in the Wild</h2>
